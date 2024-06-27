@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const ButtonComponent = () => {
+const ButtonComponent = ({btnName}) => {
   return (
-    <View>
-      <Text>ButtonComponent</Text>
-    </View>
+    <TouchableOpacity>
+      <Text>{btnName}</Text>
+    </TouchableOpacity>
   )
 }
 

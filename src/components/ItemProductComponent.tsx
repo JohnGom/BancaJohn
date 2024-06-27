@@ -8,6 +8,7 @@ const ItemProductComponent = ({ product }: Props) => {
   return (
     <View>
       <Text>{product.name}</Text>
+      <Text>ID: {product.id}</Text>
     </View>
   )
 }

@@ -22,7 +22,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         renderItem={({item}) => <ItemProductComponent product={item} />}
         keyExtractor={(item) => item.id}
         />
-      <ButtonComponent />
+      <ButtonComponent btnName="Agregar" />
     </View>
   );
 };
