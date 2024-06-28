@@ -10,7 +10,7 @@ import AddProductForm from './screens/product-form';
 export type RootStackParamList = {
   Home: undefined;
   Detail: {product: Product};
-  AddProduct: undefined;
+  AddProduct: {product?: Product};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

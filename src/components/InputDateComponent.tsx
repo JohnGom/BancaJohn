@@ -2,16 +2,16 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import DatePicker from 'react-native-date-picker'
 
-type Props = { 
-    label: string, 
-    value: Date, 
+type Props = {
+    label: string,
+    value: Date,
     onChange: (date: Date) => void 
 }
 
 const InputDateComponent = ({ label, value, onChange }: Props) => {
   return (
-    <View>
-        <Text>{label}</Text>
+    <View style={styles.container}>
+        <Text style={styles.label}>{label}</Text>
     <DatePicker
         date={value}
         onDateChange={val => onChange(val)}
@@ -24,9 +24,20 @@ const InputDateComponent = ({ label, value, onChange }: Props) => {
 export default InputDateComponent
 
 const styles = StyleSheet.create({
-    dateInput: {
-        height: 30,
-        borderColor: "gray",
-        borderWidth: 1,
-    }
+  dateInput: {
+    flex: 0,
+    paddingHorizontal: 10,
+    height: 45,
+    borderRadius: 8,
+    borderWidth: 2,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#E9E9E9',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginVertical: 5
+  },
+  container: {
+    marginTop: 10
+  }
 })

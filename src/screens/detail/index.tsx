@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { Text, View, StyleSheet, Image, Dimensions, Modal } from 'react-native';
 import { RootStackParamList } from '../../router';
 import ButtonComponent from '../../components/ButtonComponent';
+import {useProductsActions, useProductsState} from '../../context/users';
 
 type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'Detail'>
 
@@ -10,6 +11,22 @@ const DeviceWidth = Dimensions.get('screen').width;
 
 const DetailScreen = ({navigation, route}: DetailScreenProps) => {
   const {product} = route.params;
+  const [modalVisible, setModalVisible] = useState(false);
+  const {deleteProduct, getProducts} = useProductsActions()
+  const {finish} = useProductsState()
+
+  const onDeleteProduct = () => {
+    setModalVisible(false)
+    deleteProduct(product.id)
+  }
+
+  useEffect(() => {
+    if(finish) {
+      navigation.navigate('Home')
+      getProducts()
+    }
+  }, [finish, navigation, getProducts])
+
   return (
     <View style={styles.container}>
       <Text style={StyleSheet.flatten([styles.textValue, styles.textTitle])}>
@@ -50,7 +67,9 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
           </View>
           <View style={styles.contentRight}>
             <Text style={styles.textValue}>
-              {product.date_release?.toLocaleDateString ?? ""}
+              {new Date(product.date_release ?? '').toLocaleDateString(
+                'en-US',
+              ) ?? ''}
             </Text>
           </View>
         </View>
@@ -60,7 +79,9 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
           </View>
           <View style={styles.contentRight}>
             <Text style={styles.textValue}>
-              {product.date_revision?.toLocaleDateString ?? ""}
+              {new Date(product.date_revision ?? '')?.toLocaleDateString(
+                'en-US',
+              ) ?? ''}
             </Text>
           </View>
         </View>
@@ -69,14 +90,37 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
         <ButtonComponent
           btnName="Editar"
           btnColor={'secondary'}
-          handlePress={() => navigation.goBack()}
+          handlePress={() => navigation.push('AddProduct', {product})}
         />
         <ButtonComponent
           btnName="Eliminar"
           btnColor={'destroy'}
-          handlePress={() => navigation.goBack()}
+          handlePress={() => setModalVisible(true)}
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>¿Esta seguro de Eliminar el producto {product.name}?</Text>
+            <ButtonComponent
+              btnName="Confirmar"
+              btnColor={'primary'}
+              handlePress={() => onDeleteProduct()}
+            />
+            <ButtonComponent
+              btnName="Cancelar"
+              btnColor={'secondary'}
+              handlePress={() => setModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -84,6 +128,17 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
 export default DetailScreen;
 
 const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
   container: {
     flex: 1,
     paddingHorizontal: 20,
@@ -132,5 +187,30 @@ const styles = StyleSheet.create({
     width: DeviceWidth / 2.5,
     height: DeviceWidth / 2.5,
     alignSelf: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });

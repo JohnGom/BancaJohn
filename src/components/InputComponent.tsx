@@ -2,21 +2,23 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { Product } from '../model/product'
 
-type Props = { 
-    label: string, 
-    value: string, 
-    onChange: (text :string) => void 
+type Props = {
+  label: string;
+  value: string;
+  editable?: boolean;
+  onChange: (text: string) => void;
 }
 
-const InputComponent = ({ label, value, onChange }: Props) => {
+const InputComponent = ({label, value, onChange, editable = true}: Props) => {
   return (
-    <View>
-        <Text>{label}</Text>
-        <TextInput 
-            style={styles.input} 
-            value={value}
-            onChangeText={(text) => onChange(text)}
-        />
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        editable={editable}
+        style={styles.input}
+        value={value}
+        onChangeText={text => onChange(text)}
+      />
     </View>
   )
 }
@@ -24,9 +26,19 @@ const InputComponent = ({ label, value, onChange }: Props) => {
 export default InputComponent
 
 const styles = StyleSheet.create({
-    input: {
-        height: 30,
-        borderColor: "gray",
-        borderWidth: 1,
-      }
+  input: {
+    flex: 0,
+    paddingHorizontal: 10,
+    height: 45,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#E9E9E9',
+  },
+  label: {
+    fontWeight: 'bold',
+    marginVertical: 5
+  },
+  container: {
+    marginTop: 10
+  }
 })

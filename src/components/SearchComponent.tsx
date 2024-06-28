@@ -1,11 +1,12 @@
 import { TextInput, StyleSheet } from 'react-native';
 import React from 'react';
 
-const SearchComponent = (text: string) => {
+const SearchComponent = ({value, onChange}) => {
   return (
     <TextInput
       style={styles.input}
-      value={text}
+      value={value}
+      onChangeText={text => onChange(text)}
       placeholder={'Search...'}
       placeholderTextColor={'#090909'}
     />

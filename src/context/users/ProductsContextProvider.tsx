@@ -15,14 +15,24 @@ export default function ProductsContextProvider(props: {
       case 'PRODUCTS_FETCH':
         return {
           ...state,
-          saved: false,
-          Products: action.products,
+          finish: false,
+          products: action.products,
         };
       case 'SAVE_PRODUCT':
         return {
           ...state,
-          saved: true,
+          finish: true,
         };
+      case 'UPDATE_PRODUCT':
+        return {
+          ...state,
+          finish: true,
+        };
+      case 'DELETE_PRODUCT':
+        return {
+          ...state,
+          finish: true,
+        }
       default:
         return state;
     }

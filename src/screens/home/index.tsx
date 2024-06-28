@@ -1,24 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, View, StyleSheet, TextInput, FlatList } from 'react-native';
 import SearchComponent from '../../components/SearchComponent';
 import ButtonComponent from '../../components/ButtonComponent';
-import { Products } from '../../model/product';
 import ItemProductComponent from '../../components/ItemProductComponent';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../router';
 import { useProductsActions, useProductsState } from '../../context/users';
+import { Products } from '../../model/product';
 
-const DATA_DUMMY: Products = [
-  { id: "12321431", name: "producto 1", description: "description 1", date_release: new Date(), date_revision: new Date() },
-  { id: "14324432", name: "producto 2", description: "description 2", date_release: new Date(), date_revision: new Date() },
-  { id: "14324433", name: "producto 3", description: "description 3", date_release: new Date(), date_revision: new Date() },
-  { id: "14324434", name: "producto 4", description: "description 4", date_release: new Date(), date_revision: new Date() },
-  { id: "14324435", name: "producto 5", description: "description 5", date_release: new Date(), date_revision: new Date() },
-  { id: "14324436", name: "producto 6", description: "description 6", date_release: new Date(), date_revision: new Date() },
-];
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
+  const [search, setSearch] = useState('')
+  const [productsFiltered, setProductsFilter] = useState<Products>([])
   const {products} = useProductsState()
   const {getProducts} = useProductsActions()
 
@@ -27,24 +21,24 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   }, [getProducts]);
 
   useEffect(() => {
-    console.log(products)
-  }, [products])
+    setProductsFilter(products)
+  }, [products, setProductsFilter])
 
   return (
     <View style={styles.container}>
-      <SearchComponent />
+      <SearchComponent value={search} onChange={setSearch}/>
       <FlatList
         style={styles.flatlist}
-        data={DATA_DUMMY}
+        data={products}
         renderItem={({item}) => <ItemProductComponent product={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
       <View style={styles.footer}>
         <ButtonComponent
           btnName="Agregar"
           btnColor={'primary'}
-          handlePress={() => navigation.push('AddProduct')}
+          handlePress={() => navigation.push('AddProduct', {})}
         />
       </View>
     </View>

@@ -9,7 +9,7 @@ export type ProductsContextAction =
 
 export interface ProductsContextData {
   products: Products;
-  saved: boolean;
+  finish: boolean;
 }
 export interface ProductsContextValue extends ProductsContextData {
   dispatch: (action: ProductsContextAction) => void;
@@ -17,6 +17,6 @@ export interface ProductsContextValue extends ProductsContextData {
 
 export const ProductsContext = createContext<ProductsContextValue>({
   products: [],
-  saved: false,
+  finish: false,
   dispatch: () => {},
 });
