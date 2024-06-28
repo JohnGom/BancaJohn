@@ -4,6 +4,8 @@ import {Products} from '../../model/product';
 export type ProductsContextAction =
   | {type: 'PRODUCTS_FETCH'; products: Products}
   | {type: 'SAVE_PRODUCT'}
+  | {type: 'UPDATE_PRODUCT'}
+  | {type: 'DELETE_PRODUCT'}
 
 export interface ProductsContextData {
   products: Products;

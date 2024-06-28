@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View, StyleSheet, TextInput, FlatList } from 'react-native';
 import SearchComponent from '../../components/SearchComponent';
 import ButtonComponent from '../../components/ButtonComponent';
@@ -18,6 +18,15 @@ type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {products} = useProductsState()
   const {getProducts} = useProductsActions()
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
+
+  useEffect(() => {
+    console.log(products)
+  }, [products])
+
   return (
     <View style={styles.container}>
         <Text>Banco</Text>
