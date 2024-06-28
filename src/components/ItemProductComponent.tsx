@@ -1,15 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Product } from '../model/product'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../router';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = { product: Product}
+type PropsNav = NativeStackNavigationProp<RootStackParamList>;
 
 const ItemProductComponent = ({ product }: Props) => {
+  const {navigate} = useNavigation<PropsNav>();
   return (
-    <View>
+    <TouchableOpacity onPress={() => navigate('Detail', {product})}>
       <Text>{product.name}</Text>
       <Text>ID: {product.id}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 

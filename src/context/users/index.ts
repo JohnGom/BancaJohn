@@ -1,3 +1,3 @@
-export {useUsersState, useUsersActions} from './UseProductsState';
-export {UsersContextProvider};
-import UsersContextProvider from './ProductsContextProvider';
+export {useProductsState, useProductsActions} from './UseProductsState';
+export {ProductsContextProvider};
+import ProductsContextProvider from './ProductsContextProvider';

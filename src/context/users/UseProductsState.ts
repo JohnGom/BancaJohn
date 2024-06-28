@@ -1,8 +1,9 @@
 import {useContext, useMemo} from 'react';
 import {ProductsContext} from './ProductsContext';
 import {Product, Products} from '../../model/product';
+import { getProducts } from '../../api';
 
-export const useUsersState = () => {
+export const useProductsState = () => {
   const {products, saved} = useContext(ProductsContext);
 
   return useMemo(
@@ -14,17 +15,17 @@ export const useUsersState = () => {
   );
 };
 
-export const useUsersActions = () => {
+export const useProductsActions = () => {
   const {dispatch} = useContext(ProductsContext);
 
   return useMemo(() => {
     return {
-      async getUsers() {
+      async getProducts() {
         try {
-          //const users = await getUsersFirebase();
-          //if (users) {
-            //return dispatch({type: 'PRODUCTS_FETCH', });
-          //}
+          const products = await getProducts();
+          if (products) {
+            return dispatch({type: 'PRODUCTS_FETCH', products });
+          }
         } catch (error) {}
       },
 
